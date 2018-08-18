@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Activity5_Abellanosa</string>
+    <string name="id_number">ID Number</string>
+    <string name="first_name">First Name</string>
+    <string name="middle_name">Middle Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="course">Course</string>
+    <string name="year_level">Year Level</string>
+    <string name="enroll">Enroll</string>
+    <string name="add_chore">add chore</string>
+    <string name="empty_database_message">Sorry, but the database is empty</string>
+</resources>
