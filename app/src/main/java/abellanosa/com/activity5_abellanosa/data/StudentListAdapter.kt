@@ -44,8 +44,6 @@ class StudentListAdapter(private  val list: ArrayList<Student>, private val cont
                 }
                 studentEdit.id -> {
                     editStudent(currentStudent)
-
-
                 }
             }
         }
@@ -71,6 +69,17 @@ class StudentListAdapter(private  val list: ArrayList<Student>, private val cont
             var popupEnrollBtn = view.btn_popupAddEnroll
             var popupCancelBtn = view.btn_popupAddCancel
 
+            //fill up the edittexts with hints about the current student info
+            popupIdNum.hint = student.idNumber.toString()
+            popupFirstName.hint = student.firstName
+            popupMiddleName.hint = student.middleName
+            popupLastName.hint = student.lastName
+            popupCourse.hint = student.course
+            popupYearLevel.hint = student.yearLevel.toString()
+
+            //make edit text for id num uneditable for safety reasons
+            popupIdNum.isEnabled = false
+
             dialogBuilder = AlertDialog.Builder(context).setView(view)
             dialog = dialogBuilder!!.create()
             dialog?.show()
@@ -80,25 +89,32 @@ class StudentListAdapter(private  val list: ArrayList<Student>, private val cont
             }
 
             popupEnrollBtn.setOnClickListener {
-                if(popupIdNum.text.isNullOrEmpty() || popupFirstName.text.isNullOrEmpty() || popupMiddleName.text.isNullOrEmpty() || popupLastName.text.isNullOrEmpty() ||
-                        popupCourse.text.isNullOrEmpty() || popupYearLevel.text.isNullOrEmpty()){
-                    Toast.makeText(context, "Please fill up the empty fields", Toast.LENGTH_SHORT).show()
-                }
-                else {
-                    student.idNumber = popupIdNum.text.toString().trim().toInt()
+                if(!popupFirstName.text.isNullOrEmpty()){
                     student.firstName = popupFirstName.text.toString().trim()
-                    student.middleName = popupMiddleName.text.toString().trim()
-                    student.lastName = popupLastName.text.toString().trim()
-                    student.course = popupCourse.text.toString().trim()
-                    student.yearLevel = popupYearLevel.text.toString().trim().toInt()
-
-                    db.updateStudent(student, student.idNumber!!.toInt())
-                    notifyItemChanged(adapterPosition, student)
-
-                    Toast.makeText(context, "Student successfully updated", Toast.LENGTH_SHORT).show()
-                    Log.d("SUCCESS:", "Student is updated to database")
-                    dialog!!.dismiss()
                 }
+
+                if(!popupMiddleName.text.isNullOrEmpty()){
+                    student.middleName = popupMiddleName.text.toString().trim()
+                }
+
+                if(!popupLastName.text.isNullOrEmpty()){
+                    student.lastName = popupLastName.text.toString().trim()
+                }
+
+                if(!popupCourse.text.isNullOrEmpty()){
+                    student.course = popupCourse.text.toString().trim()
+                }
+
+                if(!popupYearLevel.text.isNullOrEmpty()){
+                    student.yearLevel = popupYearLevel.text.toString().trim().toInt()
+                }
+
+                db.updateStudent(student, student.idNumber!!.toInt())
+                notifyItemChanged(adapterPosition, student)
+
+                Toast.makeText(context, "Student successfully updated", Toast.LENGTH_SHORT).show()
+                Log.d("SUCCESS:", "Student is updated to database")
+                dialog!!.dismiss()
             }
 
         }
